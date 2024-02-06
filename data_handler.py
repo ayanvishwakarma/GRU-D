@@ -92,6 +92,7 @@ class DataHandler(object):
         # Get input, masking, timestamp, label_$label_name$, fold, mean, std, etc.
         data = np.load(self._data_file, allow_pickle=True)
         fold = np.load(self._fold_file, allow_pickle=True)
+        print(data)
         self._data = {}
         for s in ['input', 'masking', 'timestamp']:
             self._data[s] = data[s]
