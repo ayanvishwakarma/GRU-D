@@ -80,7 +80,7 @@ class DataHandler(object):
 
         self._data_file = os.path.join(data_path, 'data.npz')
         self._fold_file = os.path.join(data_path, 'fold.npz')
-        # self._load_data(label_name)
+        self._load_data(label_name)
         self._max_steps = max_steps
         self._max_timestamp = max_timestamp
 
@@ -91,8 +91,6 @@ class DataHandler(object):
             raise ValueError('Fold file does not exist...')
         # Get input, masking, timestamp, label_$label_name$, fold, mean, std, etc.
         data = np.load(self._data_file, allow_pickle=True)
-        print("Here")
-        print(self._data_file, data)
         fold = np.load(self._fold_file, allow_pickle=True)
         self._data = {}
         for s in ['input', 'masking', 'timestamp']:
