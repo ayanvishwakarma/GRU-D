@@ -3,8 +3,8 @@ from __future__ import absolute_import, division, print_function
 from keras import backend as K
 from keras.layers import Activation, Dense, Dropout, Input, Masking
 from keras.layers import BatchNormalization
-from keras.layers.recurrent import GRU
-from keras.layers.wrappers import Bidirectional
+from keras.layers import GRU
+from keras.layers import Bidirectional
 from keras.models import load_model, Model
 from keras.regularizers import l2
 from keras.utils.generic_utils import custom_object_scope
