@@ -58,8 +58,8 @@ def _rescale(x, mean, std):
     Returns:
         Same shape as x with rescaled values.
     """
-    return np.asarray([(xx - mean[np.newaxis, :]) / std[np.newaxis, :] for xx in x])
-
+    norm_mask = np.logical_not(np.isnan(mean))
+    return np.asarray([np.where(norm_mask, (xx - mean) / std, xx) for xx in x])
 
 class DataHandler(object):
     """Load `data.npz` and `fold.npz` for model training and testing.
