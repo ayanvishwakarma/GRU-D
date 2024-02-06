@@ -80,7 +80,7 @@ class DataHandler(object):
 
         self._data_file = os.path.join(data_path, 'data.npz')
         self._fold_file = os.path.join(data_path, 'fold.npz')
-        self._load_data(label_name)
+        # self._load_data(label_name)
         self._max_steps = max_steps
         self._max_timestamp = max_timestamp
 
