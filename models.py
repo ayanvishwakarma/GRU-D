@@ -7,7 +7,7 @@ from keras.layers import GRU
 from keras.layers import Bidirectional
 from keras.models import load_model, Model
 from keras.regularizers import l2
-from keras.utils.generic_utils import custom_object_scope
+from keras.utils import custom_object_scope
 
 from nn_utils.grud_layers import Bidirectional_for_GRUD, GRUD
 from nn_utils.layers import ExternalMasking
