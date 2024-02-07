@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 from keras import backend as K
 from keras.layers import Activation, Dense, Dropout, Input, Masking
 from keras.layers import BatchNormalization
-from keras.layers import GRU
+from keras.layers import GRU, Flatten
 from keras.layers import Bidirectional
 from keras.models import load_model, Model
 from keras.regularizers import l2
@@ -59,6 +59,8 @@ def create_grud_model(input_dim, recurrent_dim, hidden_dim,
           x = gru_layer(x)
     # MLP layers
     x = Dropout(.3)(x)
+    if return_sequences_grud:
+      x = Flatten()(x)
     for hd in hidden_dim:        
         x = Dense(units=hd,
                   kernel_regularizer=l2(1e-4))(x)
