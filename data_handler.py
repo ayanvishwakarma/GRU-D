@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 import os
-from tensorflow.keras.utils import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 
 __all__ = ['DataHandler']
