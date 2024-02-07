@@ -108,7 +108,7 @@ class DataHandler(object):
         self._loss_function = 'binary_crossentropy'
         self._folds = self._data['fold'].shape[0]
 
-    def _get_generator(self, i, i_fold, shuffle, batch_size, return_targets):
+    def _get_generator(self, i, i_fold, shuffle, batch_size, return_targets, return_sequences_grud=False):
         if not return_targets and shuffle:
             raise ValueError('Do not shuffle when targets are not returned.')
         fold = np.copy(self._data['fold'][i_fold][i])
@@ -132,10 +132,11 @@ class DataHandler(object):
                     inputs = [_pad(x, lens) for x in inputs]
                     targets = self._data['label'][batch_fold]
                     maxlen = max([len(x) for x in targets])
-                    inputs[0] = pad_sequences(inputs[0], maxlen=maxlen, padding='post', value=np.nan)
-                    inputs[1] = pad_sequences(inputs[1], maxlen=maxlen, padding='post', value=0)
-                    inputs[2] = pad_sequences(inputs[2], maxlen=maxlen, padding='post', value=np.inf)
-                    targets = pad_sequences(targets, maxlen=maxlen, padding='post', value=-1)
+                    if return_sequences_grud:
+                        inputs[0] = pad_sequences(inputs[0], maxlen=maxlen, padding='post', value=np.nan)
+                        inputs[1] = pad_sequences(inputs[1], maxlen=maxlen, padding='post', value=0)
+                        inputs[2] = pad_sequences(inputs[2], maxlen=maxlen, padding='post', value=np.inf)
+                        targets = pad_sequences(targets, maxlen=maxlen, padding='post', value=-1)
                     yield (inputs, targets)
                     batch_from += batch_size
                     print('.', end='')
