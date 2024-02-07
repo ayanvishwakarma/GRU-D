@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 import os
-
+from tensorflow.keras.utils import pad_sequences
 import numpy as np
 
 __all__ = ['DataHandler']
@@ -131,6 +131,11 @@ class DataHandler(object):
                     lens = _filter(inputs[2], self._max_timestamp, self._max_steps)
                     inputs = [_pad(x, lens) for x in inputs]
                     targets = self._data['label'][batch_fold]
+                    maxlen = max([len(x) for x in targets])
+                    inputs[0] = pad_sequences(inputs[0], maxlen=maxlen, padding='post', value=np.nan)
+                    inputs[1] = pad_sequnces(inputs[1], maxlen=maxlen, padding='post', value=0)
+                    inputs[2] = pad_sequences(inputs[2], maxlen=maxlen, padding='post', value=np.inf)
+                    targets = pad_sequences(target, maxlen=maxlen, padding='post', value=-1)
                     yield (inputs, targets)
                     batch_from += batch_size
                     print('.', end='')
