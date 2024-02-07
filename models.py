@@ -19,7 +19,8 @@ __all__ = ['create_grud_model', 'load_grud_model']
 def create_grud_model(input_dim, recurrent_dim, hidden_dim,
                       output_dim, output_activation,
                       predefined_model=None,
-                      use_bidirectional_rnn=False, use_batchnorm=False, **kwargs):
+                      use_bidirectional_rnn=False, use_batchnorm=False,
+                      return_sequences=False, **kwargs):
 
     if (predefined_model is not None
             and predefined_model in _PREDEFINED_MODEL_LIST):
@@ -44,15 +45,16 @@ def create_grud_model(input_dim, recurrent_dim, hidden_dim,
     if use_bidirectional_rnn:
         grud_layer = Bidirectional_for_GRUD(grud_layer)
     x = grud_layer([input_x, input_m, input_s])
-    for i, rd in enumerate(recurrent_dim[1:]):
-        gru_layer = GRU(units=rd,
-                        return_sequences=i < len(recurrent_dim) - 2,
-                        dropout=0.3,
-                        recurrent_dropout=0.3,
-                       )
-        if use_bidirectional_rnn:
-            gru_layer = Bidirectional(gru_layer)
-        x = gru_layer(x)
+    if not return_sequences:
+      for i, rd in enumerate(recurrent_dim[1:]):
+          gru_layer = GRU(units=rd,
+                          return_sequences=i < len(recurrent_dim) - 2,
+                          dropout=0.3,
+                          recurrent_dropout=0.3,
+                         )
+          if use_bidirectional_rnn:
+              gru_layer = Bidirectional(gru_layer)
+          x = gru_layer(x)
     # MLP layers
     x = Dropout(.3)(x)
     for hd in hidden_dim:        
