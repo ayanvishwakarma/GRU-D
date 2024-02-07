@@ -135,7 +135,7 @@ class DataHandler(object):
                     inputs[0] = pad_sequences(inputs[0], maxlen=maxlen, padding='post', value=np.nan)
                     inputs[1] = pad_sequences(inputs[1], maxlen=maxlen, padding='post', value=0)
                     inputs[2] = pad_sequences(inputs[2], maxlen=maxlen, padding='post', value=np.inf)
-                    targets = pad_sequences(target, maxlen=maxlen, padding='post', value=-1)
+                    targets = pad_sequences(targets, maxlen=maxlen, padding='post', value=-1)
                     yield (inputs, targets)
                     batch_from += batch_size
                     print('.', end='')
