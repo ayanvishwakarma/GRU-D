@@ -151,17 +151,20 @@ class DataHandler(object):
             return _inputs_generator()
         return _generator()
 
-    def training_generator(self, i_fold, batch_size):
+    def training_generator(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=0, i_fold=i_fold, shuffle=True,
-                                   batch_size=batch_size, return_targets=True)
+                                   batch_size=batch_size, return_targets=True, 
+                                   return_sequences_grud=False)
 
-    def validation_generator(self, i_fold, batch_size):
+    def validation_generator(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=1, i_fold=i_fold, shuffle=False,
-                                   batch_size=batch_size, return_targets=True)
+                                   batch_size=batch_size, return_targets=True, 
+                                   return_sequences_grud=False)
 
-    def testing_generator(self, i_fold, batch_size):
+    def testing_generator(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=2, i_fold=i_fold, shuffle=False,
-                                   batch_size=batch_size, return_targets=True)
+                                   batch_size=batch_size, return_targets=True, 
+                                   return_sequences_grud=False)
 
     def _steps(self, i, i_fold, batch_size):
         return (self._data['fold'][i_fold][i].size - 1) // batch_size + 1
@@ -184,17 +187,20 @@ class DataHandler(object):
     def testing_y(self, i_fold):
         return self._data['label'][self._data['fold'][i_fold][2]]
 
-    def training_generator_x(self, i_fold, batch_size):
+    def training_generator_x(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=0, i_fold=i_fold, shuffle=False,
-                                   batch_size=batch_size, return_targets=False)
+                                   batch_size=batch_size, return_targets=False, 
+                                   return_sequences_grud=False)
 
-    def validation_generator_x(self, i_fold, batch_size):
+    def validation_generator_x(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=1, i_fold=i_fold, shuffle=False,
-                                   batch_size=batch_size, return_targets=False)
+                                   batch_size=batch_size, return_targets=False, 
+                                   return_sequences_grud=False)
 
-    def testing_generator_x(self, i_fold, batch_size):
+    def testing_generator_x(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=2, i_fold=i_fold, shuffle=False,
-                                   batch_size=batch_size, return_targets=False)
+                                   batch_size=batch_size, return_targets=False,
+                                   return_sequences_grud=False)
 
     @property
     def folds(self):
