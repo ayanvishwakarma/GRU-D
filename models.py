@@ -34,6 +34,8 @@ def create_grud_model(input_dim, recurrent_dim, hidden_dim,
     input_x = ExternalMasking()([input_x, input_m])
     input_s = ExternalMasking()([input_s, input_m])
     input_m = Masking()(input_m)
+    if 'return_sequences_grud' in kwargs:
+      del kwargs['return_sequences_grud']
     # GRU layers
     grud_layer = GRUD(units=recurrent_dim[0],
                       return_sequences=len(recurrent_dim) > 1,
