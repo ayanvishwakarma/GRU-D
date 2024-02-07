@@ -131,7 +131,8 @@ class DataHandler(object):
                     lens = _filter(inputs[2], self._max_timestamp, self._max_steps)
                     inputs = [_pad(x, lens) for x in inputs]
                     targets = self._data['label'][batch_fold]
-                    print("Here", return_sequences_grud, input[0].shape, pad_sequences(inputs[0], maxlen=200, padding='post', value=np.nan).shape)
+                    print("Here", return_sequences_grud, inputs[0].shape, pad_sequences(inputs[0], maxlen=200, padding='post', value=np.nan).shape,
+                         pad_sequences(targets, maxlen=200, padding='post', value=-1).shape)
                     if return_sequences_grud:
                         maxlen = 200
                         inputs[0] = pad_sequences(inputs[0], maxlen=maxlen, padding='post', value=np.nan)
