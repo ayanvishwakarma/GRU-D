@@ -131,10 +131,8 @@ class DataHandler(object):
                     lens = _filter(inputs[2], self._max_timestamp, self._max_steps)
                     inputs = [_pad(x, lens) for x in inputs]
                     targets = self._data['label'][batch_fold]
-                    print("Here", return_sequences_grud, inputs[0].shape, pad_sequences(inputs[0], maxlen=200, padding='post', value=np.nan).shape,
-                         pad_sequences(targets, maxlen=200, padding='post', value=-1).shape)
                     if return_sequences_grud:
-                        maxlen = 200
+                        maxlen = self._max_steps
                         inputs[0] = pad_sequences(inputs[0], maxlen=maxlen, padding='post', value=np.nan)
                         inputs[1] = pad_sequences(inputs[1], maxlen=maxlen, padding='post', value=0)
                         inputs[2] = pad_sequences(inputs[2], maxlen=maxlen, padding='post', value=np.inf)
@@ -156,17 +154,17 @@ class DataHandler(object):
     def training_generator(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=0, i_fold=i_fold, shuffle=True,
                                    batch_size=batch_size, return_targets=True, 
-                                   return_sequences_grud=False)
+                                   return_sequences_grud=return_sequences_grud)
 
     def validation_generator(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=1, i_fold=i_fold, shuffle=False,
                                    batch_size=batch_size, return_targets=True, 
-                                   return_sequences_grud=False)
+                                   return_sequences_grud=return_sequences_grud)
 
     def testing_generator(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=2, i_fold=i_fold, shuffle=False,
                                    batch_size=batch_size, return_targets=True, 
-                                   return_sequences_grud=False)
+                                   return_sequences_grud=return_sequences_grud)
 
     def _steps(self, i, i_fold, batch_size):
         return (self._data['fold'][i_fold][i].size - 1) // batch_size + 1
@@ -192,17 +190,17 @@ class DataHandler(object):
     def training_generator_x(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=0, i_fold=i_fold, shuffle=False,
                                    batch_size=batch_size, return_targets=False, 
-                                   return_sequences_grud=False)
+                                   return_sequences_grud=return_sequences_grud)
 
     def validation_generator_x(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=1, i_fold=i_fold, shuffle=False,
                                    batch_size=batch_size, return_targets=False, 
-                                   return_sequences_grud=False)
+                                   return_sequences_grud=return_sequences_grud)
 
     def testing_generator_x(self, i_fold, batch_size, return_sequences_grud=False):
         return self._get_generator(i=2, i_fold=i_fold, shuffle=False,
                                    batch_size=batch_size, return_targets=False,
-                                   return_sequences_grud=False)
+                                   return_sequences_grud=return_sequences_grud)
 
     @property
     def folds(self):
