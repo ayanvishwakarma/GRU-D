@@ -59,13 +59,13 @@ def create_grud_model(input_dim, recurrent_dim, hidden_dim,
           x = gru_layer(x)
     # MLP layers
     x = Dropout(.3)(x)
-    # for hd in hidden_dim:        
-    #     x = Dense(units=hd,
-    #               kernel_regularizer=l2(1e-4))(x)
-    #     if use_batchnorm:
-    #         x = BatchNormalization()(x)
-    #     x = Activation('relu')(x)
-    # x = Dense(output_dim, activation=output_activation)(x)
+    for hd in hidden_dim:        
+        x = Dense(units=hd,
+                  kernel_regularizer=l2(1e-4))(x)
+        if use_batchnorm:
+            x = BatchNormalization()(x)
+        x = Activation('relu')(x)
+    x = Dense(output_dim, activation=output_activation)(x)
     output_list = [x]
 
     model = Model(inputs=input_list, outputs=output_list)
